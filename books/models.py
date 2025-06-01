@@ -1,7 +1,7 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from borrowing.models import Borrowing
+from borrowings.models import Borrowing
 
 
 class Book(models.Model):
