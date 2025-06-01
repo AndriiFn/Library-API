@@ -2,15 +2,13 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 
-import user
-
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     cover = models.CharField(
         max_length=4,
-        choices=[("Hard", "Soft")]
+        choices=[("Hard", "Hard"), ("Soft", "Soft")]
     )
     inventory = models.PositiveIntegerField()
     daily_fee = models.DecimalField(
@@ -37,11 +35,11 @@ class Borrowing(models.Model):
 class Payment(models.Model):
     status = models.CharField(
         max_length=7,
-        choices=[("pending", "paid")]
+        choices=[("pending", "pending"), ("paid", "paid")]
     )
     type = models.CharField(
         max_length=7,
-        choices=[("payment", "fine")]
+        choices=[("payment", "payment"), ("fine", "fine")]
     )
     borrowing_id = models.ForeignKey(Borrowing, on_delete=models.CASCADE)
     session_url = models.URLField()
