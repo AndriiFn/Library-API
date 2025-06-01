@@ -5,7 +5,7 @@ from borrowings.serializer import BorrowingSerializer, BorrowingCreateSerializer
 
 
 class BorrowingViewSet(viewsets.ModelViewSet):
-    queryset = Borrowing.objects.all()
+    queryset = Borrowing.objects.select_related("user", "book").all()
 
     def get_serializer_class(self):
         if self.action == "create":
