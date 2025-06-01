@@ -16,11 +16,12 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/library/", include("books.urls", namespace="library")),
     path("api/user/", include("user.urls", namespace="user")),
     path("api/library/borrowings/", include("borrowings.urls", namespace="borrowings")),
-]
+] + debug_toolbar_urls()
