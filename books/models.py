@@ -5,13 +5,14 @@ from borrowings.models import Borrowing
 
 
 class Book(models.Model):
+    class Cover(models.TextChoices):
+        HARD = "HARD"
+        SOFT = "SOFT"
+
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
-    cover = models.CharField(
-        max_length=4,
-        choices=[("Hard", "Hard"), ("Soft", "Soft")]
-    )
-    inventory = models.PositiveIntegerField()
+    cover = models.CharField(max_length=4, choices=Cover.choices)
+    inventory = models.PositiveIntegerField(validators=[MinValueValidator(0)])
     daily_fee = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -23,14 +24,17 @@ class Book(models.Model):
 
 
 class Payment(models.Model):
-    status = models.CharField(
-        max_length=7,
-        choices=[("pending", "pending"), ("paid", "paid")]
-    )
-    type = models.CharField(
-        max_length=7,
-        choices=[("payment", "payment"), ("fine", "fine")]
-    )
+    class Status(models.TextChoices):
+        PENDING = "PENDING"
+        PAID = "PAID"
+
+
+    class Type(models.TextChoices):
+        PAYMENT = "PAYMENT"
+        FINE = "FINE"
+
+    status = models.CharField(max_length=7, choices=Status.choices)
+    type = models.CharField(max_length=7, choices=Type.choices)
     borrowing_id = models.ForeignKey(Borrowing, on_delete=models.CASCADE)
     session_url = models.URLField()
     session_id = models.IntegerField(unique=True)
