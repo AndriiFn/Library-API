@@ -1,9 +1,16 @@
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets
 
 from borrowings.models import Borrowing
-from borrowings.serializer import BorrowingSerializer
+from borrowings.serializer import BorrowingSerializer, BorrowingCreateSerializer
 
 
-class BorrowingsListDetail(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.all()
-    serializer_class = BorrowingSerializer
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return BorrowingCreateSerializer
+        return BorrowingSerializer
+
+    def get_queryset(self):
+        return Borrowing.objects.filter(user=self.request.user)
