@@ -1,3 +1,5 @@
+import datetime
+
 from rest_framework import serializers
 
 from books.models import Book
@@ -11,6 +13,7 @@ class BorrowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrowing
         fields = (
+            "id",
             "borrow_date",
             "expected_return_date",
             "actual_return_date",
@@ -24,7 +27,7 @@ class BorrowingCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Borrowing
-        fields = ("book", "expected_return_date")
+        fields = ("id", "book", "expected_return_date")
 
     def validate(self, data):
         book = data.get("book")
@@ -49,3 +52,26 @@ class BorrowingCreateSerializer(serializers.ModelSerializer):
         book.save()
 
         return borrowing
+
+
+class BorrowingReturnSerializer(serializers.ModelSerializer):
+    book = BookSerializer(read_only=True)
+
+    class Meta:
+        model = Borrowing
+        fields = ("id", "book", "actual_return_date")
+
+    def validate_return_date(self, value):
+        today = datetime.date.today()
+        if value < today:
+            raise serializers.ValidationError("Choose either today's date or future's date.")
+        return value
+
+    def update(self, instance, validated_data):
+        instance.actual_return_date = validated_data["actual_return_date"]
+        instance.save()
+
+        instance.check_return_date()
+        instance.delete()
+
+        return instance
