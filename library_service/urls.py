@@ -23,5 +23,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/library/", include("books.urls", namespace="library")),
     path("api/user/", include("user.urls", namespace="user")),
-    path("api/library/borrowings/", include("borrowings.urls", namespace="borrowings")),
+    path("api/borrowings/", include("borrowings.urls", namespace="borrowings")),
 ] + debug_toolbar_urls()
