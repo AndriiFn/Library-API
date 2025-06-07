@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "user",
     "borrowings",
     "debug_toolbar",
+    "payment",
 ]
 
 MIDDLEWARE = [
