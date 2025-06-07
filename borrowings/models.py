@@ -10,7 +10,7 @@ class Borrowing(models.Model):
     expected_return_date = models.DateField()
     actual_return_date = models.DateField(null=True, blank=True)
     book = models.ForeignKey("books.Book", on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
 
     def check_return_date(self):
         if self.actual_return_date == datetime.date.today():

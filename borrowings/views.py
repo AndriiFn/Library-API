@@ -13,6 +13,7 @@ from borrowings.serializer import (
 
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.select_related("user", "book").all()
+    serializer_class = BorrowingSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly, )
 
     def get_serializer_class(self):
