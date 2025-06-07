@@ -1,8 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from borrowings.models import Borrowing
-
 
 class Book(models.Model):
     class Cover(models.TextChoices):
@@ -21,3 +19,6 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.author} ({self.inventory} available)"
+
+    class Meta:
+        app_label = "books"

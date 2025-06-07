@@ -2,7 +2,7 @@ import datetime
 
 from django.db import models
 
-from library_service import settings
+from library_practice import settings
 
 
 class Borrowing(models.Model):
